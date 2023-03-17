@@ -1,6 +1,6 @@
-import io.restassured.response.Response;
 import options.Specs;
 import org.junit.jupiter.api.Test;
+import response.AddToShoppingListResponse;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,7 +10,7 @@ public class ShoppingListTest extends Specs {
 
     @Test
     void addToShoppingListTest() {
-        Response response = given()
+        AddToShoppingListResponse response = given()
                 .spec(getRequestSpecification())
                 .queryParam("hash", "b50625841c1a1a630f2bfdc874798474f93e0ff2")
                 .pathParam("username", "cool-user13")
@@ -27,7 +27,8 @@ public class ShoppingListTest extends Specs {
                 .extract()
                 .response()
                 .body()
-                .as(Response.class);
+                .as(AddToShoppingListResponse.class);
+        assertThat(response.getCost(), equalTo(0.71));
     }
 
     @Test
@@ -47,7 +48,7 @@ public class ShoppingListTest extends Specs {
                 .spec(getRequestSpecification())
                 .queryParam("hash", "b50625841c1a1a630f2bfdc874798474f93e0ff2")
                 .pathParam("username", "cool-user13")
-                .pathParam("id", 1489039)
+                .pathParam("id", 1489051)
                 .delete("https://api.spoonacular.com/mealplanner/{username}/shopping-list/items/{id}")
                 .then()
                 .spec(getResponseSpecification());

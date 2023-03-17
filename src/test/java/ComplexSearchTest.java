@@ -1,80 +1,62 @@
-import io.qameta.allure.restassured.AllureRestAssured;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeAll;
+import options.Specs;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class ComplexSearchTest {
-
-    @BeforeAll
-    static void setUp() {
-        RestAssured.filters(new AllureRestAssured());
-    }
+public class ComplexSearchTest extends Specs {
 
     @Test
     void getCuisine() {
         given()
-                .queryParam("apiKey", "0f938cbff9194b06be6c25f0799e9c3f")
-                .queryParam("includeNutrition", "true")
-                .queryParam("cuisine", "Italian")
+                .spec(getRequestSpecification())
+                .queryParam("cuisine", "italian")
                 .when()
                 .get("https://api.spoonacular.com/recipes/complexSearch")
                 .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON);
+                .spec(getResponseSpecification());
     }
 
     @Test
     void getExcludeCuisine() {
         given()
-                .queryParam("apiKey", "0f938cbff9194b06be6c25f0799e9c3f")
-                .queryParam("includeNutrition", "true")
+                .spec(getRequestSpecification())
                 .queryParam("excludeCuisine", "Italian")
                 .when()
                 .get("https://api.spoonacular.com/recipes/complexSearch")
                 .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON);
+                .spec(getResponseSpecification());
     }
 
     @Test
     void getDietList() {
         given()
-                .queryParam("apiKey", "0f938cbff9194b06be6c25f0799e9c3f")
-                .queryParam("includeNutrition", "true")
+                .spec(getRequestSpecification())
                 .queryParam("diet", "Vegeterian")
                 .when()
                 .get("https://api.spoonacular.com/recipes/complexSearch")
                 .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON);
+                .spec(getResponseSpecification());
     }
 
     @Test
     void getIntolerancesList() {
         given()
-                .queryParam("apiKey", "0f938cbff9194b06be6c25f0799e9c3f")
-                .queryParam("includeNutrition", "true")
+                .spec(getRequestSpecification())
                 .queryParam("intolerances", "gluten")
                 .when()
                 .get("https://api.spoonacular.com/recipes/complexSearch")
                 .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON);
+                .spec(getResponseSpecification());
     }
 
     @Test
     void getTypeList() {
         given()
-                .queryParam("apiKey", "0f938cbff9194b06be6c25f0799e9c3f")
-                .queryParam("includeNutrition", "true")
+                .spec(getRequestSpecification())
                 .queryParam("type", "soup")
                 .when()
                 .get("https://api.spoonacular.com/recipes/complexSearch")
                 .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON);
+                .spec(getResponseSpecification());
     }
 }
